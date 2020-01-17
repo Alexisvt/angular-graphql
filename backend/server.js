@@ -1,15 +1,30 @@
 import { ApolloServer } from 'apollo-server';
+import mongoose from 'mongoose';
 
 import resolvers from './resolvers';
 import { typeDefs } from './schemas';
 
-// Provide resolver functions for your schema fields
+const url = 'mongodb://127.0.0.1:27017/graphqlserver';
 
+mongoose.connect(url, { useNewUrlParser: true });
+
+const db = mongoose.connection;
+
+db.once('open', _ => {
+  console.log('MongoDB database connection established successfully');
+});
+
+db.on('error', err => {
+  console.error(err);
+})
 
 const server = new ApolloServer({
-  typeDefs, resolvers, playground: {
+  typeDefs,
+  resolvers,
+  playground: {
     endpoint: '/play'
-  }
+  },
+  cors: true
 });
 
 server.listen().then(({ url }) => {

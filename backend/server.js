@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import resolvers from './resolvers';
 import { typeDefs } from './schemas';
 
-const url = 'mongodb://127.0.0.1:27017/graphqlserver';
+const url = 'mongodb://0.0.0.0:27017/graphqlserver';
 
 mongoose.connect(url, { useNewUrlParser: true });
 
@@ -16,15 +16,15 @@ db.once('open', _ => {
 
 db.on('error', err => {
   console.error(err);
-})
+});
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   playground: {
-    endpoint: '/play'
+    endpoint: '/play',
   },
-  cors: true
+  cors: true,
 });
 
 server.listen().then(({ url }) => {

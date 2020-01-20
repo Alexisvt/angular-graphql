@@ -30,7 +30,14 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    addCourse(ititle: String, author: String, description: String,   topic: String, url: String, voteCount: Int): Course
+    addCourse(
+      title: String
+      author: String
+      description: String
+      topic: String
+      url: String
+      voteCount: Int
+    ): Course
     upvote(id: String!): Course
     downvote(id: String!): Course
   }

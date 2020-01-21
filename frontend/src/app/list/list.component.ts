@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { CourseService } from '../course.service';
 import { Course } from '../models/course.model';
 
 @Component({
@@ -10,16 +8,8 @@ import { Course } from '../models/course.model';
   styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListComponent implements OnChanges {
+export class ListComponent {
 
-  @Input() searchTerm: string;
-  courses$: Observable<Course[]>;
-
-  constructor(private readonly service: CourseService) { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.courses$ = this.service.getAllCourses(this.searchTerm)
-      ;
-  }
+  @Input() courses: Course[];
 
 }

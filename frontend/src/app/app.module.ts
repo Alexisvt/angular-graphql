@@ -7,10 +7,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './graphql.module';
+import { ListComponent } from './list/list.component';
 import { MaterialModule } from './material/material.module';
+import { ItemComponent } from './item/item.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ListComponent, ItemComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -1,0 +1,6 @@
+<div class="course-list">
+  <app-item
+    *ngFor="let course of courses$ | async"
+    [course]="course"
+  ></app-item>
+</div>

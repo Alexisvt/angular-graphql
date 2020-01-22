@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Course } from '../models/course.model';
 
@@ -8,13 +8,18 @@ import { Course } from '../models/course.model';
   styleUrls: ['./item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent {
 
   @Input() course: Course;
+  @Output() increaseVote = new EventEmitter<string>();
+  @Output() decreaseVote = new EventEmitter<string>();
 
-  constructor() { }
+  increase(courseId: string): void {
+    this.increaseVote.emit(courseId);
+  }
 
-  ngOnInit() {
+  decrease(courseId): void {
+    this.decreaseVote.emit(courseId);
   }
 
 }

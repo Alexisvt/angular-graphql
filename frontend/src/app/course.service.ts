@@ -15,7 +15,7 @@ export class CourseService {
   constructor(private apollo: Apollo) { }
 
   getAllCourses(searchTerm: string): Observable<Course[]> {
-    return this.apollo.query<QueryCourse>({
+    return this.apollo.watchQuery<QueryCourse>({
       query: gql`
       query allCourses($searchTerm: String) {
         allCourses(searchTerm: $searchTerm) {
@@ -28,7 +28,7 @@ export class CourseService {
       variables: {
         searchTerm
       }
-    })
+    }).valueChanges
       .pipe(
         map(result => result.data.allCourses)
       );
@@ -57,8 +57,8 @@ export class CourseService {
   downVote(id: string): Observable<any> {
     return this.apollo.mutate({
       mutation: gql`
-      mutation downVote($id: String!) {
-        downVote(id: $id) {
+      mutation downvote($id: String!) {
+        downvote(id: $id) {
           id
           title
           author

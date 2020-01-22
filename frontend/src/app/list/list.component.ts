@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Course } from '../models/course.model';
 
@@ -11,5 +11,15 @@ import { Course } from '../models/course.model';
 export class ListComponent {
 
   @Input() courses: Course[];
+  @Output() increaseVote = new EventEmitter<string>();
+  @Output() decreaseVote = new EventEmitter<string>();
+
+  increase(courseId: string): void {
+    this.increaseVote.emit(courseId);
+  }
+
+  decrease(courseId): void {
+    this.decreaseVote.emit(courseId);
+  }
 
 }

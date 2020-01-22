@@ -1,8 +1,12 @@
 <div class="course-item">
   <mat-card>
     <mat-card-actions>
-      <button mat-raised-button color="accent">+</button>
-      <button mat-raised-button color="warn">-</button>
+      <button (click)="increase(course.id)" mat-raised-button color="accent">
+        +
+      </button>
+      <button (click)="decrease(course.id)" mat-raised-button color="warn">
+        -
+      </button>
       <span>Points: {{ course.voteCount }}</span>
     </mat-card-actions>
     <div class="course-item--chip-list">

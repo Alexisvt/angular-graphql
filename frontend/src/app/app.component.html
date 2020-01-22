@@ -4,4 +4,8 @@
     <input matInput type="search" autocomplete="off" #search />
   </mat-form-field>
 </mat-toolbar>
-<app-list [courses]="courses$ | async"></app-list>
+<app-list
+  (increaseVote)="increase($event)"
+  (decreaseVote)="decrease($event)"
+  [courses]="courses$ | async"
+></app-list>

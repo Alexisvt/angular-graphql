@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, fromEvent, Observable, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, fromEvent, noop, Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
 import { CourseService } from './course.service';
 import { Course } from './models/course.model';
@@ -14,7 +14,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('search', { static: false }) searchInput: ElementRef;
   searchTerm$: Observable<string>;
   courses$: Observable<Course[]>;
-  courseSubRef: Subscription;
+  eventSubRef: Subscription;
+  getAllCoursesSubRef: Subscription;
   private courseSubject = new BehaviorSubject<Course[]>([]);
 
 
@@ -23,15 +24,14 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.courses$ = this.courseSubject.asObservable();
 
-    this.service.getAllCourses('')
-      .pipe(take(1))
+    this.getAllCoursesSubRef = this.service.getAllCourses('')
       .subscribe(courses => {
         this.courseSubject.next(courses);
       });
   }
 
   ngAfterViewInit(): void {
-    this.courseSubRef = fromEvent<any>(this.searchInput.nativeElement, 'keyup')
+    this.eventSubRef = fromEvent<any>(this.searchInput.nativeElement, 'keyup')
       .pipe(
         map(event => event.target.value),
         debounceTime(400),
@@ -44,7 +44,17 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.courseSubRef.unsubscribe();
+    this.eventSubRef.unsubscribe();
+    this.getAllCoursesSubRef.unsubscribe();
+  }
+
+
+  increase(courseId: string): void {
+    this.service.upVote(courseId).subscribe(noop);
+  }
+
+  decrease(courseId): void {
+    this.service.downVote(courseId).subscribe(noop);
   }
 
 }
